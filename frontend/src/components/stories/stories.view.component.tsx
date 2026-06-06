@@ -492,11 +492,28 @@ const StoriesComponent = () => {
   
   const text = UI_TEXT[selectedLanguage] ?? UI_TEXT.English;
   const genreLabels = GENRE_LABELS[selectedLanguage] ?? GENRE_LABELS.English;
+const StoryRemixModal = StoryRemix as unknown as React.ComponentType<{
+  story?: string;
+  title?: string;
+  selectedStory?: IStories;
+  onClose?: () => void;
+  onApplyRemix?: (content: string) => void;
+}>;
 
-  const playSoundtrack = (genre: string) => {
-    const soundtrack = soundtrackMap[genre];
-    if (!soundtrack) return;
+const StoryWorldMapModal = StoryWorldMap as React.ComponentType<{
+  story?: string;
+  storyContent?: string;
+  title?: string;
+  onClose: () => void;
+}>;
 
+export const RelatedStoriesComponent: React.FC<IRelatedStoriesComponentProps> = ({
+  posts,
+  currentPostId,
+}) => {
+export const RelatedStoriesComponent: React.FC<IRelatedStoriesComponentProps> = ({ posts, currentPostId }) => {
+  const navigate = useNavigate();
+  const filteredPosts = posts.filter((post) => post._id !== currentPostId);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
